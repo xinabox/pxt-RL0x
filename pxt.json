@@ -1,0 +1,25 @@
+{
+    "name": "pxt-rl0x",
+    "version": "0.0.2",
+    "description": "",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "rl0x.ts",
+        "xRL0x.h",
+        "xRL0x.cpp",
+        "SC18IS602.h",
+        "SC18IS602.cpp"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": true,
+    "supportedTargets": [
+        "maker",
+        "microbit"
+    ],
+    "preferredEditor": "blocksprj"
+}
