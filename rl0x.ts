@@ -47,10 +47,10 @@ namespace RL0X {
         return;
     }
 
-    //%block="RL0x receive"
+    //%block="RL0x receive string"
     //%shim=rl0x::recv
-    export function recv(): string {
-        return "xinabox";
+    export function receiveString(): string {
+        return "";
     }
 
     //%block="RL0x last rssi"
