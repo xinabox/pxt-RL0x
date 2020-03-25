@@ -1,6 +1,6 @@
 {
     "name": "pxt-rl0x",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "",
     "dependencies": {
         "core": "*"
@@ -11,9 +11,7 @@
         "xRL0x.h",
         "xRL0x.cpp",
         "SC18IS602.h",
-        "SC18IS602.cpp",
-        "shims.d.ts",
-        "enums.d.ts"
+        "SC18IS602.cpp"
     ],
     "testFiles": [
         "test.ts"
