@@ -484,7 +484,6 @@ void send(String s)
 /**
  * Registers code to run when a packet is received over radio.
  */
-//% help=radio/on-data-received
 //% weight=50
 //% blockId=radio_datagram_received_event block="radio on data received" blockGap=8
 //% deprecated=true
