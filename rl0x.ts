@@ -71,7 +71,7 @@ namespace rl0x {
     }
 
     //%shim=rl0x::onDataReceived
-    function onDataRecieved(body: Action): void {
+    function onDataReceived(body: Action): void {
         return;
     }
     
