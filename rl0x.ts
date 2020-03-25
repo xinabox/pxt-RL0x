@@ -85,7 +85,7 @@ namespace rl0x {
                     break;
                 case "c":
                     let index = rcvStr.indexOf("$!$$!$");
-                    onReceivedValueHandler(rcvStr.substr(1, index-1), parseFloat(rcvStr.substr(index+6, rcvStr.length)))
+                    onReceivedValueHandler(rcvStr.substr(1, index - 1), parseFloat(rcvStr.substr(index + 6, rcvStr.length)))
                     break;
                 default:
                     return;
