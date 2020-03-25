@@ -11,7 +11,8 @@ static const xRL0X::ModemConfig MODEM_CONFIG_TABLE[] = {
     {0x78, 0xc4, 0x00},
 };
 
-bool xRL0X::begin(void) {
+bool xRL0X::begin(void)
+{
     uint8_t buf[2] = {0x42, 0x00};
 
     i2cspi.transfer(buf, 2);
@@ -47,7 +48,8 @@ bool xRL0X::begin(void) {
     return buf[1];
 }
 
-void xRL0X::setupSC18IS602(void) {
+void xRL0X::setupSC18IS602(void)
+{
 
     i2cspi.begin();
     i2cspi.setClockDivider(0);
@@ -56,7 +58,8 @@ void xRL0X::setupSC18IS602(void) {
     i2cspi.pinMode(2, INPUT);
 }
 
-uint8_t xRL0X::read(uint8_t reg) {
+uint8_t xRL0X::read(uint8_t reg)
+{
     uint8_t sendArray[5];
     sendArray[0] = (reg & ~SPI_WRITE_MASK);
     sendArray[1] = 0x00;
@@ -66,12 +69,14 @@ uint8_t xRL0X::read(uint8_t reg) {
     return sendArray[1];
 }
 
-void xRL0X::burstRead(uint8_t reg, uint8_t *dest, uint8_t len) {
+void xRL0X::burstRead(uint8_t reg, uint8_t *dest, uint8_t len)
+{
     uint8_t sendArray[200];
     uint8_t ptr = 1;
 
     sendArray[0] = (reg & ~SPI_WRITE_MASK);
-    for (int i = 1; i < 200; i++) {
+    for (int i = 1; i < 200; i++)
+    {
         sendArray[i] = 0x00;
     }
 
@@ -81,7 +86,8 @@ void xRL0X::burstRead(uint8_t reg, uint8_t *dest, uint8_t len) {
         *dest++ = sendArray[ptr++];
 }
 
-void xRL0X::write(uint8_t reg, uint8_t value) {
+void xRL0X::write(uint8_t reg, uint8_t value)
+{
     uint8_t sendArray[5];
 
     sendArray[0] = (reg | SPI_WRITE_MASK);
@@ -90,7 +96,8 @@ void xRL0X::write(uint8_t reg, uint8_t value) {
     i2cspi.transfer(sendArray, 2);
 }
 
-void xRL0X::burstWrite(uint8_t reg, const uint8_t *src, uint8_t len) {
+void xRL0X::burstWrite(uint8_t reg, const uint8_t *src, uint8_t len)
+{
     uint8_t status = 0;
     uint8_t sendArray[200];
     uint8_t ptr = 0;
@@ -98,7 +105,8 @@ void xRL0X::burstWrite(uint8_t reg, const uint8_t *src, uint8_t len) {
 
     sendArray[ptr] = reg | SPI_WRITE_MASK;
 
-    while (len--) {
+    while (len--)
+    {
         ptr++;
         sendArray[ptr] = *src++;
     }
@@ -106,7 +114,8 @@ void xRL0X::burstWrite(uint8_t reg, const uint8_t *src, uint8_t len) {
     i2cspi.transfer(sendArray, numbytes);
 }
 
-bool xRL0X::send(const uint8_t *data, uint8_t len) {
+bool xRL0X::send(const uint8_t *data, uint8_t len)
+{
     if (len > RH_RF95_MAX_MESSAGE_LEN)
         return false;
 
@@ -128,12 +137,15 @@ bool xRL0X::send(const uint8_t *data, uint8_t len) {
     return true;
 }
 
-bool xRL0X::recv(uint8_t *buf, uint8_t *len) {
-    if (!available()) {
+bool xRL0X::recv(uint8_t *buf, uint8_t *len)
+{
+    if (!available())
+    {
         return false;
     }
 
-    if (buf && len) {
+    if (buf && len)
+    {
 
         if (*len > _bufLen - RH_RF95_HEADER_LEN)
             *len = _bufLen - RH_RF95_HEADER_LEN;
@@ -143,13 +155,18 @@ bool xRL0X::recv(uint8_t *buf, uint8_t *len) {
     return true;
 }
 
-void xRL0X::poll() {
-    if ((i2cspi.digitalRead(1) == 1)) {
+void xRL0X::poll()
+{
+    if ((i2cspi.digitalRead(1) == 1))
+    {
         uint8_t irq_flags = read(RH_RF95_REG_12_IRQ_FLAGS);
-        if (_mode == RHModeRx && irq_flags & (RH_RF95_RX_TIMEOUT | RH_RF95_PAYLOAD_CRC_ERROR)) {
+        if (_mode == RHModeRx && irq_flags & (RH_RF95_RX_TIMEOUT | RH_RF95_PAYLOAD_CRC_ERROR))
+        {
 
             _rxBad++;
-        } else if (_mode == RHModeRx && irq_flags & RH_RF95_RX_DONE) {
+        }
+        else if (_mode == RHModeRx && irq_flags & RH_RF95_RX_DONE)
+        {
 
             uint8_t len = read(RH_RF95_REG_13_RX_NB_BYTES);
 
@@ -174,11 +191,15 @@ void xRL0X::poll() {
             validateRxBuf();
             if (_rxBufValid)
                 setModeIdle();
-        } else if (_mode == RHModeTx && irq_flags & RH_RF95_TX_DONE) {
+        }
+        else if (_mode == RHModeTx && irq_flags & RH_RF95_TX_DONE)
+        {
 
             _txGood++;
             setModeIdle();
-        } else if (_mode == RHModeCad && irq_flags & RH_RF95_CAD_DONE) {
+        }
+        else if (_mode == RHModeCad && irq_flags & RH_RF95_CAD_DONE)
+        {
 
             _cad = irq_flags & RH_RF95_CAD_DETECTED;
             setModeIdle();
@@ -189,7 +210,8 @@ void xRL0X::poll() {
     }
 }
 
-void xRL0X::validateRxBuf() {
+void xRL0X::validateRxBuf()
+{
     if (_bufLen < 4)
         return;
 
@@ -197,28 +219,34 @@ void xRL0X::validateRxBuf() {
     _rxHeaderFrom = _buf[1];
     _rxHeaderId = _buf[2];
     _rxHeaderFlags = _buf[3];
-    if (_promiscuous || _rxHeaderTo == _thisAddress || _rxHeaderTo == RH_BROADCAST_ADDRESS) {
+    if (_promiscuous || _rxHeaderTo == _thisAddress || _rxHeaderTo == RH_BROADCAST_ADDRESS)
+    {
         _rxGood++;
         _rxBufValid = true;
     }
 }
 
-bool xRL0X::available() {
+bool xRL0X::available()
+{
     poll();
-    if (_mode == RHModeTx) {
+    if (_mode == RHModeTx)
+    {
         return false;
     }
     setModeRx();
     return _rxBufValid;
 }
 
-void xRL0X::clearRxBuf() {
+void xRL0X::clearRxBuf()
+{
     _rxBufValid = false;
     _bufLen = 0;
 }
 
-void xRL0X::setModeTx() {
-    if (_mode != RHModeTx) {
+void xRL0X::setModeTx()
+{
+    if (_mode != RHModeTx)
+    {
 
         write(RH_RF95_REG_01_OP_MODE, RH_RF95_MODE_TX);
         write(RH_RF95_REG_40_DIO_MAPPING1, 0x40);
@@ -226,8 +254,10 @@ void xRL0X::setModeTx() {
     }
 }
 
-void xRL0X::setModeRx() {
-    if (_mode != RHModeRx) {
+void xRL0X::setModeRx()
+{
+    if (_mode != RHModeRx)
+    {
 
         write(RH_RF95_REG_01_OP_MODE, RH_RF95_MODE_RXCONTINUOUS);
         write(RH_RF95_REG_40_DIO_MAPPING1, 0x00);
@@ -235,23 +265,28 @@ void xRL0X::setModeRx() {
     }
 }
 
-void xRL0X::setModeIdle() {
-    if (_mode != RHModeIdle) {
+void xRL0X::setModeIdle()
+{
+    if (_mode != RHModeIdle)
+    {
 
         write(RH_RF95_REG_01_OP_MODE, RH_RF95_MODE_STDBY);
         _mode = RHModeIdle;
     }
 }
 
-bool xRL0X::sleep() {
-    if (_mode != RHModeSleep) {
+bool xRL0X::sleep()
+{
+    if (_mode != RHModeSleep)
+    {
         write(RH_RF95_REG_01_OP_MODE, RH_RF95_MODE_SLEEP);
         _mode = RHModeSleep;
     }
     return true;
 }
 
-bool xRL0X::setModemConfig(ModemConfigChoice index) {
+bool xRL0X::setModemConfig(ModemConfigChoice index)
+{
     if (index > (signed int)(sizeof(MODEM_CONFIG_TABLE) / sizeof(ModemConfig)))
         return false;
 
@@ -262,18 +297,21 @@ bool xRL0X::setModemConfig(ModemConfigChoice index) {
     return true;
 }
 
-void xRL0X::setModemRegisters(const ModemConfig *config) {
+void xRL0X::setModemRegisters(const ModemConfig *config)
+{
     write(RH_RF95_REG_1D_MODEM_CONFIG1, config->reg_1d);
     write(RH_RF95_REG_1E_MODEM_CONFIG2, config->reg_1e);
     write(RH_RF95_REG_26_MODEM_CONFIG3, config->reg_26);
 }
 
-void xRL0X::setPreambleLength(uint16_t bytes) {
+void xRL0X::setPreambleLength(uint16_t bytes)
+{
     write(RH_RF95_REG_20_PREAMBLE_MSB, bytes >> 8);
     write(RH_RF95_REG_21_PREAMBLE_LSB, bytes & 0xff);
 }
 
-bool xRL0X::setFrequency(float centre) {
+bool xRL0X::setFrequency(float centre)
+{
 
     uint32_t frf = (centre * 1000000.0) / RH_RF95_FSTEP;
     write(RH_RF95_REG_06_FRF_MSB, (frf >> 16) & 0xff);
@@ -284,24 +322,31 @@ bool xRL0X::setFrequency(float centre) {
     return true;
 }
 
-void xRL0X::setTxPower(int8_t power, bool useRFO) {
+void xRL0X::setTxPower(int8_t power, bool useRFO)
+{
 
-    if (useRFO) {
+    if (useRFO)
+    {
         if (power > 14)
             power = 14;
         if (power < -1)
             power = -1;
         write(RH_RF95_REG_09_PA_CONFIG, RH_RF95_MAX_POWER | (power + 1));
-    } else {
+    }
+    else
+    {
         if (power > 23)
             power = 23;
         if (power < 5)
             power = 5;
 
-        if (power > 20) {
+        if (power > 20)
+        {
             write(RH_RF95_REG_4D_PA_DAC, RH_RF95_PA_DAC_ENABLE);
             power -= 3;
-        } else {
+        }
+        else
+        {
             write(RH_RF95_REG_4D_PA_DAC, RH_RF95_PA_DAC_DISABLE);
         }
 
@@ -309,9 +354,11 @@ void xRL0X::setTxPower(int8_t power, bool useRFO) {
     }
 }
 
-bool xRL0X::waitPacketSent(uint16_t timeout) {
+bool xRL0X::waitPacketSent(uint16_t timeout)
+{
     unsigned long starttime = system_timer_current_time();
-    while ((system_timer_current_time() - starttime) < timeout) {
+    while ((system_timer_current_time() - starttime) < timeout)
+    {
         poll();
         if (_mode != RHModeTx)
             return true;
@@ -321,10 +368,13 @@ bool xRL0X::waitPacketSent(uint16_t timeout) {
     return false;
 }
 
-bool xRL0X::waitAvailableTimeout(uint16_t timeout) {
+bool xRL0X::waitAvailableTimeout(uint16_t timeout)
+{
     unsigned long starttime = system_timer_current_time();
-    while ((system_timer_current_time() - starttime) < timeout) {
-        if (available()) {
+    while ((system_timer_current_time() - starttime) < timeout)
+    {
+        if (available())
+        {
             return true;
         }
         schedule();
@@ -333,62 +383,77 @@ bool xRL0X::waitAvailableTimeout(uint16_t timeout) {
     return false;
 }
 
-void xRL0X::setThisAddress(uint8_t address) {
+void xRL0X::setThisAddress(uint8_t address)
+{
     _thisAddress = address;
 }
 
-void xRL0X::setHeaderTo(uint8_t to) {
+void xRL0X::setHeaderTo(uint8_t to)
+{
     _txHeaderTo = to;
 }
 
-void xRL0X::setHeaderFrom(uint8_t from) {
+void xRL0X::setHeaderFrom(uint8_t from)
+{
     _txHeaderFrom = from;
 }
 
-uint8_t xRL0X::headerTo() {
+uint8_t xRL0X::headerTo()
+{
     return _rxHeaderTo;
 }
 
-uint8_t xRL0X::headerFrom() {
+uint8_t xRL0X::headerFrom()
+{
     return _rxHeaderFrom;
 }
 
-uint8_t xRL0X::headerId() {
+uint8_t xRL0X::headerId()
+{
     return _rxHeaderId;
 }
 
-uint8_t xRL0X::headerFlags() {
+uint8_t xRL0X::headerFlags()
+{
     return _rxHeaderFlags;
 }
 
-int16_t xRL0X::lastRssi() {
+int16_t xRL0X::lastRssi()
+{
     return _lastRssi;
 }
 
-namespace rl0x {
+namespace rl0x
+{
 static xRL0X *ptr = new xRL0X;
 
 //%
-void begin() {
+void begin()
+{
     ptr->begin();
 }
 
 //%
-void setFrequency(float freq) {
+void setFrequency(float freq)
+{
     ptr->setFrequency(freq);
 }
 
 //%
-void setTxPower(uint8_t val) {
+void setTxPower(uint8_t val)
+{
     ptr->setTxPower(23, false);
 }
 
 //%
-String recv() {
+String recv()
+{
     uint8_t buf[195] = {NULL};
     uint8_t len = sizeof(buf);
-    if (ptr->waitAvailableTimeout(10000)) {
-        if (ptr->recv(buf, &len)) {
+    if (ptr->waitAvailableTimeout(10000))
+    {
+        if (ptr->recv(buf, &len))
+        {
             return mkString((const char *)buf, strlen((const char *)buf));
         }
     }
@@ -396,12 +461,14 @@ String recv() {
 }
 
 //%
-uint16_t lastRssi() {
+uint16_t lastRssi()
+{
     return ptr->lastRssi();
 }
 
 //%
-void configId(uint16_t freq, uint8_t id) {
+void configId(uint16_t freq, uint8_t id)
+{
     ptr->setFrequency(freq);
     ptr->setThisAddress(id);
     ptr->setHeaderFrom(id);
@@ -409,12 +476,21 @@ void configId(uint16_t freq, uint8_t id) {
 }
 
 //%
-void sendString(String s) {
+void send(String s)
+{
     ptr->send((const uint8_t *)s->getUTF8Data(), s->getUTF8Size());
 }
 
-//%
-void sendNumber(String s) {
-    ptr->send((const uint8_t *)s->getUTF8Data(), s->getUTF8Size());
+/**
+ * Registers code to run when a packet is received over radio.
+ */
+//% help=radio/on-data-received
+//% weight=50
+//% blockId=radio_datagram_received_event block="radio on data received" blockGap=8
+//% deprecated=true
+void onDataReceived(Action body)
+{
+    registerWithDal(0, 0, body);
 }
+
 } // namespace rl0x
