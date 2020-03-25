@@ -1,6 +1,6 @@
 //% color=#444444 icon="\uf012"
 //% groups=['On start', 'Variables', 'Optional']
-namespace RL0X {
+namespace rl0x {
 
     export enum RADIO {
         //% block="RL01"
@@ -11,24 +11,47 @@ namespace RL0X {
         RL03 = 915
     }
 
+    let initialized = false
+    let onReceivedNumberHandler: (receivedNumber: number) => void;
+    let onReceivedValueHandler: (name: string, value: number) => void;
+    let onReceivedStringHandler: (receivedString: string) => void;
+
     //%block="RL0x use %u with ID %v"
     //%shim=rl0x::configId
-    //%u.defl=RADIO.RL03
-    //%v.defl=0
+    //%u.defl=0
     export function config(u: RADIO, v: number = 0): void {
         return;
     }
 
+    //%shim=rl0x::send
+    function send(u: String): void {
+        return;
+    }
+
+    //%shim=rl0x::recv
+    function recv(): string {
+        return "";
+    }
+
     //%block="RL0x send number %u"
-    //%shim=rl0x::sendNumber
+    //%u.defl=0
     export function sendNumber(u: number): void {
+        send("a" + convertToText(u));
         return;
     }
 
     //%block="RL0x send string %u"
     //%u.defl="Hello, World!"
-    //%shim=rl0x::sendString
     export function sendString(u: string): void {
+        send("b" + u)
+        return;
+    }
+
+    //%block="RL0x send value %str = %val"
+    //%str.defl="name"
+    //%val.defl="value"
+    export function sendValue(str: string, val: number): void {
+        send("c" + str + "$!$$!$" + convertToText(val))
         return;
     }
 
@@ -47,10 +70,28 @@ namespace RL0X {
         return;
     }
 
-    //%block="RL0x receive string"
-    //%shim=rl0x::recv
-    export function receiveString(): string {
-        return "";
+    function init() {
+        if (initialized) return;
+        initialized = true;
+
+        onDataReceived(() => {
+            let rcvStr = recv()
+            switch (rcvStr[0]) {
+                case "a":
+                    onReceivedNumberHandler(parseFloat(rcvStr.substr(1, rcvStr.length)));
+                    break;
+                case "b":
+                    onReceivedStringHandler(rcvStr.substr(1, rcvStr.length));
+                    break;
+                case "c":
+                    let index = rcvStr.indexOf("$!$$!$");
+                    onReceivedValueHandler(rcvStr.substr(1, index-1), parseFloat(rcvStr.substr(index+6, rcvStr.length)))
+                    break;
+                default:
+                    return;
+            }
+            rcvStr = ""
+        })
     }
 
     //%block="RL0x last rssi"
@@ -58,6 +99,27 @@ namespace RL0X {
     //%advanced=true
     export function lastRssi(): number {
         return 1;
+    }
+
+    //% block="RL0x on received "
+    //% draggableParameters=reporter
+    export function onReceivedNumber(cb: (receivedNumber: number) => void): void {
+        init();
+        onReceivedNumberHandler = cb
+    }
+
+    //% block="RL0x on received "
+    //% draggableParameters=reporter
+    export function onReceivedString(cb: (receivedString: string) => void): void {
+        init();
+        onReceivedStringHandler = cb
+    }
+
+    //% block="RL0x on received "
+    //% draggableParameters=reporter
+    export function onReceivedValue(cb: (name: string, value: number) => void): void {
+        init();
+        onReceivedValueHandler = cb
     }
 
     begin();
