@@ -70,8 +70,8 @@ namespace rl0x {
         return;
     }
 
-    //%shim=rl0x::onDataReceived
     function onDataReceived(body: Action): void {
+        pxtcore.registerWithDal(0,0,body);
         return;
     }
     
