@@ -69,9 +69,9 @@ namespace rl0x {
     export function setTxPower(u: number = 23): void {
         return;
     }
-
+    
+    //%shim=rl0x::onDataReceived
     function onDataReceived(body: Action): void {
-        pxtcore.registerWithDal(0,0,body);
         return;
     }
     
