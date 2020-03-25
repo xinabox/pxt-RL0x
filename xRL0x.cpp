@@ -481,16 +481,9 @@ void send(String s)
     ptr->send((const uint8_t *)s->getUTF8Data(), s->getUTF8Size());
 }
 
-/**
- * Registers code to run when a packet is received over radio.
- */
-//% help=radio/on-data-received
-//% weight=50
-//% blockId=radio_datagram_received_event block="radio on data received" blockGap=8
-//% deprecated=true
+//%
 void onDataReceived(Action body)
 {
     registerWithDal(0, 0, body);
 }
-
 } // namespace rl0x

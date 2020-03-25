@@ -70,6 +70,11 @@ namespace rl0x {
         return;
     }
 
+    //%shim=rl0x::onDataReceived
+    function onDataRecieved(body: Action): void {
+        return;
+    }
+    
     function init() {
         if (initialized) return;
         initialized = true;
