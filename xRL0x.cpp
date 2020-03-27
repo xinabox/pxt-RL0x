@@ -484,6 +484,6 @@ void send(String s)
 //%
 void onDataReceived(Action body)
 {
-    registerWithDal(0, 0, body);
+    registerWithDal(0, 1, body);
 }
 } // namespace rl0x
