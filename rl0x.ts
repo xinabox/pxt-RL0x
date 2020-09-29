@@ -84,7 +84,6 @@ namespace rl0x {
             while(true)
             {
 
-                    onDataReceived(() => {
                         let rcvStr = recv()
                         switch (rcvStr[0]) {
                             case "a":
@@ -101,7 +100,6 @@ namespace rl0x {
                                 return;
                         }
                         rcvStr = ""
-                    })
 
                 basic.pause(1)
 
