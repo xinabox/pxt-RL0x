@@ -79,23 +79,34 @@ namespace rl0x {
         if (initialized) return;
         initialized = true;
 
-        onDataReceived(() => {
-            let rcvStr = recv()
-            switch (rcvStr[0]) {
-                case "a":
-                    onReceivedNumberHandler(parseFloat(rcvStr.substr(1, rcvStr.length)));
-                    break;
-                case "b":
-                    onReceivedStringHandler(rcvStr.substr(1, rcvStr.length));
-                    break;
-                case "c":
-                    let index = rcvStr.indexOf("$!$$!$");
-                    onReceivedValueHandler(rcvStr.substr(1, index - 1), parseFloat(rcvStr.substr(index + 6, rcvStr.length)))
-                    break;
-                default:
-                    return;
+        startParallel(function () {
+
+            while(true)
+            {
+
+                    onDataReceived(() => {
+                        let rcvStr = recv()
+                        switch (rcvStr[0]) {
+                            case "a":
+                                onReceivedNumberHandler(parseFloat(rcvStr.substr(1, rcvStr.length)));
+                                break;
+                            case "b":
+                                onReceivedStringHandler(rcvStr.substr(1, rcvStr.length));
+                                break;
+                            case "c":
+                                let index = rcvStr.indexOf("$!$$!$");
+                                onReceivedValueHandler(rcvStr.substr(1, index - 1), parseFloat(rcvStr.substr(index + 6, rcvStr.length)))
+                                break;
+                            default:
+                                return;
+                        }
+                        rcvStr = ""
+                    })
+
+                basic.pause(1)
+
             }
-            rcvStr = ""
+
         })
     }
 
@@ -125,6 +136,11 @@ namespace rl0x {
     export function onReceivedValue(cb: (name: string, value: number) => void): void {
         init();
         onReceivedValueHandler = cb
+    }
+
+    //% shim=parall::startParallel
+    export function startParallel(u: () => void) {
+        return 1;
     }
 
     begin();
