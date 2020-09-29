@@ -11,7 +11,9 @@
         "xRL0x.h",
         "xRL0x.cpp",
         "SC18IS602.h",
-        "SC18IS602.cpp"
+        "SC18IS602.cpp",
+		"parallel.h",
+		"parallel.cpp"
     ],
     "testFiles": [
         "test.ts"
