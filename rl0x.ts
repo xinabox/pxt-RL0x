@@ -79,6 +79,8 @@ namespace rl0x {
         if (initialized) return;
         initialized = true;
 
+        basic.pause(5000)
+
         startParallel(function () {
 
             while(true)
