@@ -29,7 +29,7 @@ namespace rl0x {
     }
 
     //%shim=rl0x::recv
-    function recv(): string {
+    export function recv(): string {
         return "";
     }
 
