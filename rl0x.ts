@@ -79,8 +79,6 @@ namespace rl0x {
         if (initialized) return;
         initialized = true;
 
-        basic.pause(5000)
-
         startParallel(function () {
 
             while(true)
@@ -119,6 +117,7 @@ namespace rl0x {
     //% block="RL0x on received "
     //% draggableParameters=reporter
     export function onReceivedNumber(cb: (receivedNumber: number) => void): void {
+        basic.pause(2000)
         init();
         onReceivedNumberHandler = cb
     }
@@ -126,6 +125,7 @@ namespace rl0x {
     //% block="RL0x on received "
     //% draggableParameters=reporter
     export function onReceivedString(cb: (receivedString: string) => void): void {
+        basic.pause(2000)
         init();
         onReceivedStringHandler = cb
     }
@@ -133,6 +133,7 @@ namespace rl0x {
     //% block="RL0x on received "
     //% draggableParameters=reporter
     export function onReceivedValue(cb: (name: string, value: number) => void): void {
+        basic.pause(2000)
         init();
         onReceivedValueHandler = cb
     }

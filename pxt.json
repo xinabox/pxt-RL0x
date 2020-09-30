@@ -1,6 +1,6 @@
 {
     "name": "pxt-RL0x",
-    "version": "0.0.25",
+    "version": "0.0.24",
     "description": "",
     "dependencies": {
         "core": "*"
