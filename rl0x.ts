@@ -102,7 +102,7 @@ namespace rl0x {
                         }
                         rcvStr = ""
 
-                basic.pause(1)
+                basic.pause(10)
 
             }
 
