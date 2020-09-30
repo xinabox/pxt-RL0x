@@ -107,6 +107,11 @@ namespace rl0x {
         })
     }
 
+    export function beginRL0x()
+    {
+        control.raiseEvent(EventBusSource.MICROBIT_ID_BUTTON_AB, EventBusValue.MICROBIT_BUTTON_EVT_CLICK)
+    }
+
     //%block="RL0x last rssi"
     //%shim=rl0x::lastRssi
     //%advanced=true
@@ -124,8 +129,10 @@ namespace rl0x {
     //% block="RL0x on received "
     //% draggableParameters=reporter
     export function onReceivedString(cb: (receivedString: string) => void): void {
-        init();
-        onReceivedStringHandler = cb
+        control.onEvent(EventBusSource.MICROBIT_ID_BUTTON_AB, EventBusValue.MICROBIT_BUTTON_EVT_CLICK, function () {
+            init();
+            onReceivedStringHandler = cb
+        })
     }
 
     //% block="RL0x on received "
