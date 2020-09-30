@@ -20,9 +20,6 @@ namespace rl0x {
     //%shim=rl0x::configId
     //%u.defl=0
     export function config(u: RADIO, v: number = 0): void {
-
-        basic.pause(2000)
-        control.raiseEvent(EventBusSource.MICROBIT_ID_BUTTON_AB, EventBusValue.MICROBIT_EVT_ANY)
         return;
     }
 
@@ -127,10 +124,8 @@ namespace rl0x {
     //% block="RL0x on received "
     //% draggableParameters=reporter
     export function onReceivedString(cb: (receivedString: string) => void): void {
-        control.onEvent(EventBusSource.MICROBIT_ID_BUTTON_AB, EventBusValue.MICROBIT_EVT_ANY, function () {
-            init();
-            onReceivedStringHandler = cb
-        })
+        init();
+        onReceivedStringHandler = cb
     }
 
     //% block="RL0x on received "
