@@ -1,6 +1,6 @@
 {
     "name": "pxt-rl0x",
-    "version": "0.0.4",
+    "version": "0.0.23",
     "description": "",
     "dependencies": {
         "core": "*"
@@ -11,7 +11,9 @@
         "xRL0x.h",
         "xRL0x.cpp",
         "SC18IS602.h",
-        "SC18IS602.cpp"
+        "SC18IS602.cpp",
+        "parallel.h",
+        "parallel.cpp"
     ],
     "testFiles": [
         "test.ts"
@@ -21,5 +23,5 @@
         "maker",
         "microbit"
     ],
-    "preferredEditor": "blocksprj"
+    "preferredEditor": "tsprj"
 }

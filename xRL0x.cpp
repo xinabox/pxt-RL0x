@@ -484,10 +484,10 @@ void send(String s)
 //%
 void onDataReceived(Action body)
 {
-    #ifdef CODAL_I2C
+    /*#ifdef CODAL_I2C
     registerWithDal(0, 1, body);
     #else
     registerWithDal(0, 0, body);
-    #endif
+    #endif*/
 }
 } // namespace rl0x
