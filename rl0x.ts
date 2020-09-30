@@ -125,7 +125,7 @@ namespace rl0x {
     //% draggableParameters=reporter
     export function onReceivedString(cb: (receivedString: string) => void): void {
             init();
-            onReceivedStringHandler = pins.createBuffer(0)
+            onReceivedStringHandler = cb
     }
 
     //% block="RL0x on received "
