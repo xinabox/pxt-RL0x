@@ -85,7 +85,7 @@ namespace rl0x {
             {
 
                         let rcvStr = recv()
-                        serial.writeString("Test\n")
+                        //serial.writeString("Test\n")
                         switch (rcvStr[0]) {
                             case "a":
                                 onReceivedNumberHandler(parseFloat(rcvStr.substr(1, rcvStr.length)));
