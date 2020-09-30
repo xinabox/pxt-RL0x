@@ -86,7 +86,8 @@ namespace rl0x {
 
                         let rcvStr = recv()
                         serial.writeString("Test\n")
-                        serial.writeString(rcvStr)
+                        //serial.writeString(rcvStr)
+                        onReceivedStringHandler(rcvStr.substr(1, rcvStr.length));
                         /*basic.showString("Hello", 75)
                         switch (rcvStr[0]) {
                             case "a":
