@@ -18,6 +18,12 @@
     "testFiles": [
         "test.ts"
     ],
+    "public": true,
+    "supportedTargets": [
+        "maker",
+        "microbit"
+    ],
+    "preferredEditor": "tsprj",
     "yotta": {
         "config": {
             "microbit-dal": {
@@ -39,11 +45,5 @@
                 }
             }
         }
-    },
-    "public": true,
-    "supportedTargets": [
-        "maker",
-        "microbit"
-    ],
-    "preferredEditor": "tsprj"
+    }
 }
