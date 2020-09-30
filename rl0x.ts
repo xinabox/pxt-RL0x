@@ -87,23 +87,23 @@ namespace rl0x {
                         let rcvStr = recv()
                         serial.writeString("Test\n")
                         //serial.writeString(rcvStr)
-                        onReceivedStringHandler(rcvStr.substr(1, rcvStr.length));
-                        /*basic.showString("Hello", 75)
+                        //onReceivedStringHandler(rcvStr.substr(1, rcvStr.length));
+                        //basic.showString("Hello", 75)
                         switch (rcvStr[0]) {
-                            case "a":
+                            /*case "a":
                                 onReceivedNumberHandler(parseFloat(rcvStr.substr(1, rcvStr.length)));
-                                break;
+                                break;*/
                             case "b":
                                 onReceivedStringHandler(rcvStr.substr(1, rcvStr.length));
                                 break;
-                            case "c":
+                            /*case "c":
                                 let index = rcvStr.indexOf("$!$$!$");
                                 onReceivedValueHandler(rcvStr.substr(1, index - 1), parseFloat(rcvStr.substr(index + 6, rcvStr.length)))
-                                break;
+                                break;*/
                             default:
                                 return;
                         }
-                        rcvStr = ""*/
+                        rcvStr = ""
 
                 basic.pause(1)
 
