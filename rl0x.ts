@@ -29,7 +29,7 @@ namespace rl0x {
     }
 
     //%shim=rl0x::recv
-    function recv(): string {
+    export function recv(): string {
         return "";
     }
 
@@ -124,8 +124,8 @@ namespace rl0x {
     //% block="RL0x on received "
     //% draggableParameters=reporter
     export function onReceivedString(cb: (receivedString: string) => void): void {
-            init();
-            onReceivedStringHandler = cb
+        init();
+        onReceivedStringHandler = cb
     }
 
     //% block="RL0x on received "
