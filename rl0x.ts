@@ -29,6 +29,8 @@ namespace rl0x {
     }
 
     //%shim=rl0x::recv
+    //%blockId="recvMsg"
+    //%block="RL0x receive message"
     export function recv(): string {
         return "";
     }
