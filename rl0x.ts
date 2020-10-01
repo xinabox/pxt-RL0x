@@ -73,11 +73,11 @@ namespace rl0x {
     }
     
     //%shim=rl0x::onDataReceived
-    function onDataReceived(body: Action): void {
+    /*function onDataReceived(body: Action): void {
         return;
-    }
+    }*/
 
-    function init() {
+    /*function init() {
         if (initialized) return;
         initialized = true;
 
@@ -107,7 +107,7 @@ namespace rl0x {
             }
 
         })
-    }
+    }*/
 
     //%block="RL0x last rssi"
     //%shim=rl0x::lastRssi
@@ -118,24 +118,24 @@ namespace rl0x {
 
     //% block="RL0x on received "
     //% draggableParameters=reporter
-    export function onReceivedNumber(cb: (receivedNumber: number) => void): void {
+    /*export function onReceivedNumber(cb: (receivedNumber: number) => void): void {
         init();
         onReceivedNumberHandler = cb
-    }
+    }*/
 
     //% block="RL0x on received "
     //% draggableParameters=reporter
-    export function onReceivedString(cb: (receivedString: string) => void): void {
+    /*export function onReceivedString(cb: (receivedString: string) => void): void {
         init();
         onReceivedStringHandler = cb
-    }
+    }*/
 
     //% block="RL0x on received "
     //% draggableParameters=reporter
-    export function onReceivedValue(cb: (name: string, value: number) => void): void {
+    /*export function onReceivedValue(cb: (name: string, value: number) => void): void {
         init();
         onReceivedValueHandler = cb
-    }
+    }*/
 
     //% shim=parall::startParallel
     export function startParallel(u: () => void) {
