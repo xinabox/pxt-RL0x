@@ -116,25 +116,6 @@ namespace rl0x {
         return 1;
     }
 
-    /*export function onReceivedNumber(cb: (receivedNumber: number) => void): void {
-        init();
-        onReceivedNumberHandler = cb
-    }*/
-
-    //% block="RL0x on received "
-    //% draggableParameters=reporter
-    /*export function onReceivedString(cb: (receivedString: string) => void): void {
-        init();
-        onReceivedStringHandler = cb
-    }*/
-
-    //% block="RL0x on received "
-    //% draggableParameters=reporter
-    /*export function onReceivedValue(cb: (name: string, value: number) => void): void {
-        init();
-        onReceivedValueHandler = cb
-    }*/
-
     //% shim=parall::startParallel
     export function startParallel(u: () => void) {
         return 1;
