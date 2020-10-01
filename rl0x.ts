@@ -116,8 +116,6 @@ namespace rl0x {
         return 1;
     }
 
-    //% block="RL0x on received "
-    //% draggableParameters=reporter
     /*export function onReceivedNumber(cb: (receivedNumber: number) => void): void {
         init();
         onReceivedNumberHandler = cb
