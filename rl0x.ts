@@ -29,9 +29,7 @@ namespace rl0x {
     }
 
     //%shim=rl0x::recv
-    //%blockId="recvMsg"
-    //%block="RL0x receive message"
-    export function recv(): string {
+    function recv(): string {
         return "";
     }
 
@@ -73,13 +71,16 @@ namespace rl0x {
     }
     
     //%shim=rl0x::onDataReceived
-    /*function onDataReceived(body: Action): void {
+    function onDataReceived(body: Action): void {
         return;
-    }*/
+    }
 
-    /*function init() {
-        if (initialized) return;
-        initialized = true;
+    function init() {
+
+        if(initialized)
+        return
+
+        initialized = true
 
         startParallel(function () {
 
@@ -87,33 +88,60 @@ namespace rl0x {
             {
 
                         let rcvStr = recv()
-                        //serial.writeString("Test\n")
-                        switch (rcvStr[0]) {
-                            case "a":
-                                onReceivedNumberHandler(parseFloat(rcvStr.substr(1, rcvStr.length)));
-                                break;
-                            case "b":
-                                onReceivedStringHandler(rcvStr.substr(1, rcvStr.length));
-                                break;
-                            case "c":
-                                let index = rcvStr.indexOf("$!$$!$");
-                                onReceivedValueHandler(rcvStr.substr(1, index - 1), parseFloat(rcvStr.substr(index + 6, rcvStr.length)))
-                                break;
-                            default:
-                                return;
+                        console.log("Test\n")
+
+                        if(rcvStr[0] == "a")
+                        {
+                           onReceivedNumberHandler(parseFloat(rcvStr.substr(1, rcvStr.length)));
+                        }else if(rcvStr[0] == "b")
+                        {
+                            onReceivedStringHandler(rcvStr.substr(1, rcvStr.length));
+                        }else if(rcvStr[0] == "c")
+                        {
+                            let index = rcvStr.indexOf("$!$$!$");
+                            onReceivedValueHandler(rcvStr.substr(1, index - 1), parseFloat(rcvStr.substr(index + 6, rcvStr.length)))
                         }
                         rcvStr = ""
+
+                basic.pause(100)
 
             }
 
         })
-    }*/
+    }
 
     //%block="RL0x last rssi"
     //%shim=rl0x::lastRssi
     //%advanced=true
     export function lastRssi(): number {
         return 1;
+    }
+
+    //% block="RL0x on received "
+    //% draggableParameters=reporter
+    export function onReceivedNumber(cb: (receivedNumber: number) => void): void {
+        control.onEvent(3, 6, function () {
+            init();
+        })
+        onReceivedNumberHandler = cb
+    }
+
+    //% block="RL0x on received "
+    //% draggableParameters=reporter
+    export function onReceivedString(cb: (receivedString: string) => void): void {
+        control.onEvent(3, 6, function () {
+            init();
+        })
+        onReceivedStringHandler = cb
+    }
+
+    //% block="RL0x on received "
+    //% draggableParameters=reporter
+    export function onReceivedValue(cb: (name: string, value: number) => void): void {
+        control.onEvent(3, 6, function () {
+            init();
+        })
+        onReceivedValueHandler = cb
     }
 
     //% shim=parall::startParallel
