@@ -473,6 +473,12 @@ void configId(uint16_t freq, uint8_t id)
     ptr->setThisAddress(id);
     ptr->setHeaderFrom(id);
     ptr->setHeaderTo(id);
+
+    #ifdef CODAL_I2C
+    Event evt(3, 6);
+    #else
+    MicroBitEvent evt(3,6); 
+    #endif
 }
 
 //%
